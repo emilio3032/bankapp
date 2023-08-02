@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+{% endblock %}
+{% block content %}
+<script>
+var subjectObject = {
+  "Kerala": {
+    "Malappuram": ["Tirur", "Manjeri", "Kondotty", "Perinthalmanna"],
+    "Kozhikkod": ["Feroke", "Ramanattukara", "Mavoor Road", "Koyilandi"],
+    "Eranakulam": ["Edappaly", "Aluva", "Vytila", "Kalamasseri"],
+    "Palakkad": ["Ottapalam", "Pattambi", "Mannarkkad", "Cherpulasseri"],
+    "Thrissur": ["Irinjalakkuda", "Guruvayoor", "Chavakkad", "Chalakkudi"]
+
+
+  },
+
+}
+window.onload = function() {
+  var subjectSel = document.getElementById("subject");
+  var topicSel = document.getElementById("topic");
+  var chapterSel = document.getElementById("chapter");
+  for (var x in subjectObject) {
+    subjectSel.options[subjectSel.options.length] = new Option(x, x);
+  }
+  subjectSel.onchange = function() {
+    //empty Chapters- and Topics- dropdowns
+    chapterSel.length = 1;
+    topicSel.length = 1;
+    //display correct values
+    for (var y in subjectObject[this.value]) {
+      topicSel.options[topicSel.options.length] = new Option(y, y);
+    }
+  }
+  topicSel.onchange = function() {
+    //empty Chapters dropdown
+    chapterSel.length = 1;
+    //display correct values
+    var z = subjectObject[subjectSel.value][this.value];
+    for (var i = 0; i < z.length; i++) {
+      chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+    }
+  }
+}
+</script>
+<body>
+<div class="mx-auto" style="line-height:1cm;">
+   <center> <img src="{% static 'img/banner.png' %}" width="150" height="60" alt="">
+    <h2><u>APPLICATION FORM</u></h2></center><br><br>
+    <form method="POST" action="{% url 'bankapp:home' %}" >
+         {% csrf_token %}
+          <label>NAME  :</label>
+        <input type="text" name="Name" placeholder=><br>
+          <label>DOB   :</label>
+        <input type="date" name="DOB" placeholder=><br>
+          <label>AGE   :</label>
+        <input type="number" name="age"><br>
+      <label>Gender  :</label>
+      Male:<input type="radio" name="gender">
+      Female:<input type="radio" name="gender"><br>
+        <label>Mobile  :</label>
+      <input type="number" name="mobile" placeholder><br>
+        <label>EMAIL   :</label>
+      <input type="email" name="email" placeholder><br>
+        <label>ADDRESS  :</label>
+      <textarea cols="60" rows="2" value="address">
+</textarea>  <br>
+        State: <select name="subject" id="subject">
+    <option value="" selected="selected">Select State</option>
+  </select>
+  <br>
+District: <select name="topic" id="topic">
+    <option value="" selected="selected">Please Select state first</option>
+  </select>
+  <br>
+Branch: <select name="chapter" id="chapter">
+    <option value="" selected="selected">Please select district first</option>
+  </select>
+  <br>
+        <label>ACCOUNT TYPE :</label>
+            <select>
+            <option value="ac">Account type</option>
+            <option value="Savings">Savings Account</option>
+            <option value="fixed">Fixed Account</option>
+            <option value="current">Current Account</option>
+            </select><br>
+        <label>MATERIALS PROVIDE :</label>
+      Debit Card:<input type="checkbox" name="debit">
+      Credit Card:<input type="checkbox" name="credit">
+        Cheque Book:<input type="checkbox" name="cheque"><br>
+        <button type="submit" onclick="alert('Application succesfully Completed')">Submit</button>
+    </form>
+    <a href="{% url 'registration:logout' %}"><button>Logout</button></a>
+</div>
+</body>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+{% endblock %}
+{% block content %}
+<div style="text-align:center;line-height:1cm;">
+    <img src="{% static 'img/banner.png' %}" width="150" height="60" alt="">
+    <h1>Welcome To CAPITAL BANK</h1>
+    for application form <a href="{% url 'registration:forms' %}"> <button>click here</button></a>
+</div>
+{% endblock %}
